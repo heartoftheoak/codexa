@@ -1,0 +1,25 @@
+{
+  "name": "codexa",
+  "version": "1.0.0",
+  "description": "Helper app for homebrew campaigns",
+  "main": "src/main/main.js",
+  "type": "module",
+  "scripts": {
+    "start": "electron .",
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/heartoftheoak/codexa.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/heartoftheoak/codexa/issues"
+  },
+  "homepage": "https://github.com/heartoftheoak/codexa#readme",
+  "devDependencies": {
+    "electron": "^35.1.2"
+  }
+}
