@@ -1,5 +1,10 @@
-import { app, BrowserWindow, screen } from 'electron'
+import { app, BrowserWindow, screen, ipcMain } from 'electron'
+import { fileURLToPath } from 'url';
+import path from 'path'
+import fs from 'fs'
 
+const __filename = fileURLToPath(import.meta.url);
+const __dirname = path.dirname(__filename)
 let mainWindow
 
 function createWindow() {
@@ -16,11 +21,13 @@ function createWindow() {
         x: xPos,
         y: yPos,
         webPreferences: {
-            nodeIntegration: true
+            nodeIntegration: true,
+            contextIsolation: true,
+            preload: path.join(__dirname, 'renderer', 'homepage', 'index.js')
         }
     })
 
-    mainWindow.loadFile('src/renderer/homepage/index.html')
+    mainWindow.loadFile(path.join(__dirname, 'renderer', 'homepage', 'index.html'))
 
     mainWindow.on('closed', () => {
         mainWindow = null
@@ -28,6 +35,12 @@ function createWindow() {
 }
 
 app.whenReady().then(createWindow)
+
+ipcMain.handle('getData', async () => {
+    const statefilePath = path.join(__dirname, 'renderer', 'assets', 'statefile.json')
+    const statefileData = fs.readFileSync(statefilePath, 'utf-8')
+    return JSON.parse(statefileData)
+})
 
 app.on('window-all-closed', () => {
     if(process.platform !== 'darwin') {
