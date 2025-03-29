@@ -1,11 +1,39 @@
 <!DOCTYPE html>
+<link
+  rel="stylesheet"
+  media="(prefers-color-scheme:light)"
+  href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/themes/light.css"
+/>
+<link
+  rel="stylesheet"
+  media="(prefers-color-scheme:dark)"
+  href="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/themes/dark.css"
+  onload="document.documentElement.classList.add('sl-theme-dark');"
+/>
+<script type="module" src="https://cdn.jsdelivr.net/npm/@shoelace-style/shoelace@2.20.1/cdn/shoelace-autoloader.js"></script>
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Electron App</title>
+  <title>Codexa - A Homebrew TTRPG Helper</title>
 </head>
 <body>
-  <h1>Hello, Electron!</h1>
+  <h1>Campaigns</h1>
+  <div id="campaignContainer"></div>
+  <script>
+    window.electronAPI.getData().then(data => {
+      const campaignContainer = document.getElementById("campaignContainer")
+      data.campaigns.forEach(campaign => {
+        const campaignCard = document.createElement("sl-card")
+        campaignCard.setAttribute("class", "card-header")
+        campaignCard.innerText = campaign.description
+        const headerDiv = document.createElement("div")
+        headerDiv.setAttribute("slot", "header")
+        headerDiv.innerText = campaign.name
+        campaignCard.appendChild(headerDiv)
+        campaignContainer.appendChild(campaignCard)
+      })
+    })
+  </script>
 </body>
 </html>
